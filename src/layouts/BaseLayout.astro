@@ -1,0 +1,97 @@
+---
+import { siteConfig } from "@/config/site";
+import "@/styles/global.css";
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN" transition:slide>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title ? `${title} | ${siteConfig.title}` : siteConfig.title}</title>
+    <meta name="description" content={description || siteConfig.description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen">
+    <!-- Nav -->
+    <header
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5 transition-all duration-300"
+      style="background: rgba(10, 10, 15, 0.8)"
+    >
+      <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a
+          href="/"
+          class="text-lg font-bold bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+        >
+          {siteConfig.author.name}
+        </a>
+        <div class="flex items-center gap-8 text-sm text-gray-400">
+          {
+            siteConfig.nav.map((item) => (
+              <a
+                href={item.href}
+                class="hover:text-white transition-colors duration-200 relative group"
+              >
+                {item.label}
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-cyan to-accent-purple transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))
+          }
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="pt-16">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 mt-24">
+      <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+        <p>&copy; {new Date().getFullYear()} {siteConfig.author.name}. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          {
+            siteConfig.social.map((s) => (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-accent-cyan transition-colors duration-200"
+              >
+                {s.name}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  // Navbar hide/show on scroll direction
+  let lastScroll = 0;
+  const navbar = document.getElementById("navbar");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > lastScroll && currentScroll > 80) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScroll = currentScroll;
+  });
+</script>

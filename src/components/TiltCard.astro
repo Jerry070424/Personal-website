@@ -1,0 +1,57 @@
+---
+/**
+ * 3D 倾斜卡片
+ * 鼠标移入时卡片跟随产生 3D 倾斜效果。
+ * 用法：<TiltCard class="..."><你的内容></TiltCard>
+ */
+export interface Props {
+  class?: string;
+  maxTilt?: number;
+}
+
+const { class: className = "", maxTilt = 8 } = Astro.props;
+---
+
+<div class:list={["tilt-card", className]} data-max-tilt={maxTilt}>
+  <div class="tilt-card-inner">
+    <slot />
+  </div>
+</div>
+
+<script>
+  (() => {
+    const cards = document.querySelectorAll(".tilt-card");
+
+    for (const card of cards) {
+      const inner = card.querySelector(".tilt-card-inner");
+      const maxTilt = parseFloat(card.dataset.maxTilt) || 8;
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateY = ((x - centerX) / centerX) * maxTilt;
+        const rotateX = -((y - centerY) / centerY) * maxTilt;
+
+        inner.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        inner.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg)";
+      });
+    }
+  })();
+</script>
+
+<style>
+  .tilt-card {
+    perspective: 600px;
+  }
+  .tilt-card-inner {
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+  }
+</style>

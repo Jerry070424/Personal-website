@@ -1,0 +1,259 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteConfig } from "@/config/site";
+import ScrollReveal from "@/components/ScrollReveal.astro";
+import ParticleBackground from "@/components/ParticleBackground.astro";
+import TiltCard from "@/components/TiltCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const recentPosts = posts.slice(0, 3);
+
+const projects = await getCollection("projects");
+projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const featuredProjects = projects.slice(0, 4);
+---
+
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-6">
+    <!-- ─── Hero ─── -->
+    <section class="min-h-[calc(100vh-4rem)] flex flex-col justify-center relative overflow-hidden">
+      <ParticleBackground particleCount={60} lineDistance={150} speed={0.4} />
+
+      <!-- Glow orbs -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-accent-cyan/10 rounded-full blur-3xl animate-pulse" />
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s" />
+      </div>
+
+      <div class="relative z-10">
+        <p class="text-accent-cyan font-mono text-sm mb-4">你好，我是</p>
+        <h1 class="text-5xl md:text-8xl font-bold leading-tight mb-6">
+          <span class="bg-gradient-to-r from-white via-accent-cyan to-accent-purple bg-clip-text text-transparent inline-block bg-[length:200%_100%] animate-gradient">
+            {siteConfig.author.name}
+          </span>
+        </h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-8 leading-relaxed">
+          {siteConfig.author.bio}
+          <br />
+          代码、经济学、以及一切有趣的事物。
+        </p>
+        <div class="flex gap-4">
+          <a
+            href="/about"
+            class="px-6 py-3 rounded-lg bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-medium hover:opacity-90 transition-opacity hover:shadow-lg hover:shadow-accent-cyan/20"
+          >
+            了解更多 →
+          </a>
+          <a
+            href="/blog"
+            class="px-6 py-3 rounded-lg border border-white/10 text-gray-300 hover:border-accent-cyan/50 hover:text-white transition-all"
+          >
+            阅读博客
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── About ─── -->
+    <ScrollReveal>
+      <section class="py-24">
+        <h2 class="text-3xl font-bold mb-12 text-center">
+          <span class="bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent">
+            关于我
+          </span>
+        </h2>
+        <div class="max-w-2xl mx-auto text-center">
+          <p class="text-gray-400 text-lg leading-relaxed mb-8">
+            南京大学软件工程与经济学双学位大一学生。热爱编程、经济学和跨学科思考。
+            相信技术可以改变世界，也相信理解人性才能做出真正有用的产品。
+          </p>
+          <div class="flex justify-center gap-8 text-sm">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-white">NJU</div>
+              <div class="text-gray-500 mt-1">学校</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-white">SE & Econ</div>
+              <div class="text-gray-500 mt-1">专业</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-white">2028</div>
+              <div class="text-gray-500 mt-1">毕业</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+    <!-- ─── Projects ─── -->
+    <ScrollReveal>
+      <section class="py-24">
+        <div class="flex items-center justify-between mb-12">
+          <h2 class="text-3xl font-bold">
+            <span class="bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent">
+              项目
+            </span>
+          </h2>
+          <a href="/projects" class="text-sm text-gray-400 hover:text-white transition-colors">
+            查看全部 →
+          </a>
+        </div>
+        {
+          featuredProjects.length > 0 ? (
+            <div class="grid md:grid-cols-2 gap-6">
+              {featuredProjects.map((project) => (
+                <TiltCard>
+                  <a
+                    href={`/projects/${project.id}`}
+                    class="block p-6 rounded-xl border border-white/5 bg-dark-800/50 group glow-card h-full"
+                  >
+                    <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-accent-cyan transition-colors">
+                      {project.data.title}
+                    </h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">{project.data.description}</p>
+                    <div class="flex gap-2 flex-wrap">
+                      {project.data.tags.map((tag) => (
+                        <span class="px-2 py-1 text-xs rounded bg-dark-600 text-accent-cyan">{tag}</span>
+                      ))}
+                    </div>
+                  </a>
+                </TiltCard>
+              ))}
+            </div>
+          ) : (
+            <div class="grid md:grid-cols-2 gap-6">
+              <TiltCard>
+                <div class="p-6 rounded-xl border border-white/5 bg-dark-800/50 glow-card h-full">
+                  <h3 class="text-lg font-semibold text-white mb-2">项目一</h3>
+                  <p class="text-gray-400 text-sm leading-relaxed mb-4">项目简介占位。</p>
+                  <div class="flex gap-2 flex-wrap">
+                    <span class="px-2 py-1 text-xs rounded bg-dark-600 text-accent-cyan">Tech</span>
+                  </div>
+                </div>
+              </TiltCard>
+              <TiltCard>
+                <div class="p-6 rounded-xl border border-white/5 bg-dark-800/50 glow-card h-full">
+                  <h3 class="text-lg font-semibold text-white mb-2">项目二</h3>
+                  <p class="text-gray-400 text-sm leading-relaxed mb-4">项目简介占位。</p>
+                  <div class="flex gap-2 flex-wrap">
+                    <span class="px-2 py-1 text-xs rounded bg-dark-600 text-accent-purple">Stack</span>
+                  </div>
+                </div>
+              </TiltCard>
+            </div>
+          )
+        }
+      </section>
+    </ScrollReveal>
+
+    <!-- ─── Blog ─── -->
+    <ScrollReveal>
+      <section class="py-24">
+        <div class="flex items-center justify-between mb-12">
+          <h2 class="text-3xl font-bold">
+            <span class="bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent">
+              最新文章
+            </span>
+          </h2>
+          <a href="/blog" class="text-sm text-gray-400 hover:text-white transition-colors">
+            全部文章 →
+          </a>
+        </div>
+        {
+          recentPosts.length > 0 ? (
+            <div class="space-y-4">
+              {recentPosts.map((post) => (
+                <a
+                  href={`/blog/${post.id}`}
+                  class="block p-5 rounded-xl border border-white/5 bg-dark-800/50 hover:border-accent-cyan/30 transition-all duration-300 group blog-card"
+                >
+                  <h3 class="text-lg font-semibold text-white mb-1 group-hover:text-accent-cyan transition-colors">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-2">{post.data.description}</p>
+                  <time class="text-xs text-gray-500">{post.data.pubDate.toLocaleDateString("zh-CN")}</time>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div class="text-center py-12">
+              <p class="text-gray-500">还没有文章。开始写第一篇吧！</p>
+            </div>
+          )
+        }
+      </section>
+    </ScrollReveal>
+
+    <!-- ─── Contact ─── -->
+    <ScrollReveal>
+      <section class="py-24 text-center">
+        <h2 class="text-3xl font-bold mb-6">
+          <span class="bg-gradient-to-r from-accent-cyan to-accent-purple bg-clip-text text-transparent">
+            联系我
+          </span>
+        </h2>
+        <p class="text-gray-400 mb-8">
+          如果有任何想法或合作意向，欢迎联系我。
+        </p>
+        <a
+          href="mailto:you@example.com"
+          class="glow-btn inline-block px-8 py-3 rounded-lg bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-medium hover:opacity-90 transition-opacity"
+        >
+          you@example.com
+        </a>
+      </section>
+    </ScrollReveal>
+  </div>
+</BaseLayout>
+
+<style>
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .animate-gradient {
+    animation: gradient 4s ease infinite;
+  }
+
+  /* Glow card hover — subtle border glow */
+  .glow-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glow-card:hover {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.08), 0 0 60px rgba(167, 139, 250, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Blog card — left accent line animation */
+  .blog-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, #22d3ee, #a78bfa);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: top;
+  }
+  .blog-card:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Glow button */
+  .glow-btn {
+    position: relative;
+  }
+  .glow-btn:hover {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3), 0 0 40px rgba(167, 139, 250, 0.2);
+  }
+</style>
