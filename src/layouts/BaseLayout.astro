@@ -31,7 +31,7 @@ const { title, description } = Astro.props;
     >
       <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
         <a
-          href="/"
+          href={import.meta.env.BASE_URL}
           class="text-lg font-bold text-accent hover:opacity-80 transition-opacity"
         >
           {siteConfig.author.name}
@@ -40,7 +40,7 @@ const { title, description } = Astro.props;
           {
             siteConfig.nav.map((item) => (
               <a
-                href={item.href}
+                href={`${import.meta.env.BASE_URL}${item.href}`}
                 class="hover:text-accent transition-colors duration-200 relative group"
               >
                 {item.label}
@@ -65,7 +65,7 @@ const { title, description } = Astro.props;
           {
             siteConfig.social.map((s) => (
               <a
-                href={s.url}
+                href={s.url.startsWith("http") ? s.url : `${import.meta.env.BASE_URL}${s.url}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="hover:text-accent transition-colors duration-200"

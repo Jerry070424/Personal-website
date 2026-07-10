@@ -13,13 +13,13 @@ export const siteConfig = {
 
   social: [
     { name: "GitHub", url: "https://github.com/Jerry070424", icon: "github" },
-    { name: "Blog", url: "/blog", icon: "pen" },
+    { name: "Blog", url: "blog", icon: "pen" },
   ],
 
   nav: [
-    { label: "首页", href: "/" },
-    { label: "博客", href: "/blog" },
-    { label: "项目", href: "/projects" },
-    { label: "关于", href: "/about" },
+    { label: "首页", href: "" },
+    { label: "博客", href: "blog" },
+    { label: "项目", href: "projects" },
+    { label: "关于", href: "about" },
   ],
 };
