@@ -1,7 +1,7 @@
 export const siteConfig = {
   title: "Jerry | Personal Site",
   description: "NJU student, developer, and lifelong learner.",
-  url: "https://your-site.vercel.app",
+  url: "https://jerry070424.github.io/Personal-website",
 
   author: {
     name: "Jerry",

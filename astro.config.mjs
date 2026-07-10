@@ -4,7 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://your-site.vercel.app",
+  site: "https://jerry070424.github.io",
+  base: "/Personal-website/",
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
