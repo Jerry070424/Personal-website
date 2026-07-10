@@ -9,7 +9,10 @@ projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 <BaseLayout title="项目">
   <div class="max-w-5xl mx-auto px-6 py-24">
     <div class="relative mb-16">
-      <div class="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-orb-amber/25 blur-3xl pointer-events-none"></div>
+      <div
+        class="absolute -top-12 -left-12 w-80 h-80 pointer-events-none"
+        style="background: radial-gradient(circle, rgba(245,230,211,0.4) 0%, rgba(245,230,211,0.1) 40%, transparent 70%);"
+      ></div>
       <h1 class="text-4xl font-bold text-accent relative z-10">项目</h1>
       <p class="text-text-secondary mt-3 relative z-10">我的作品集。</p>
     </div>
