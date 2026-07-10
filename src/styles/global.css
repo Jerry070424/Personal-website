@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
-/* ── 自定义设计令牌 ── */
+/* ── 设计令牌 ── */
 @theme {
-  --color-dark-900: #0a0a0f;
-  --color-dark-800: #12121a;
-  --color-dark-700: #1a1a26;
-  --color-dark-600: #252533;
-  --color-accent-cyan: #22d3ee;
-  --color-accent-purple: #a78bfa;
-  --color-accent-pink: #f472b6;
+  --color-cream: #faf9f5;
+  --color-surface: #ffffff;
+  --color-border: #eae7e2;
+  --color-border-light: #f0ede8;
+  --color-text-primary: #1c1c1c;
+  --color-text-secondary: #6e6b66;
+  --color-text-muted: #9c9790;
+  --color-accent: #3d6189;
+  --color-accent-hover: #2d4f70;
+  --color-accent-soft: #e8edf3;
+  --color-orb-amber: #f5e6d3;
+  --color-orb-blue: #dce8f5;
+  --color-orb-teal: #d5ece8;
   --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
@@ -18,14 +24,14 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-dark-900);
+  background: var(--color-cream);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-dark-600);
+  background: var(--color-border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-cyan);
+  background: var(--color-text-muted);
 }
 
 /* ── 全局 ── */
@@ -34,13 +40,28 @@ html {
 }
 
 body {
-  background: var(--color-dark-900);
-  color: #e2e8f0;
+  background-color: var(--color-cream);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  /* 点阵纹理 */
+  background-image: radial-gradient(circle, #e0dcd5 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ── 噪点叠加层 ── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
 }
 
 ::selection {
-  background: rgba(167, 139, 250, 0.3);
-  color: #fff;
+  background: rgba(61, 97, 137, 0.15);
+  color: var(--color-text-primary);
 }
